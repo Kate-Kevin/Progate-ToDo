@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Todos from './components/Todos'
+import TodoForm from './components/TodoForm'
 
 function App() {
   const [todos, setTodos] = useState([
@@ -32,16 +33,31 @@ function App() {
     })
     setTodos(updatedTodos)
   }
-  const  deleteTodo = (todoId) =>{
+  const deleteTodo = (todoId) => {
     console.log(todoId)
     const filteredItems = todos.filter((todo) => todo.id !== todoId);
     setTodos(filteredItems)
+  }
+  const addTodo = () => {
+    if (todoTitle === '') {
+      return
+    }
+
+    const newTodo = {
+      id: todos.length + 1,
+      title: todoTitle,
+      completed: false,
+    }
+
+    const updatedTodos = todos.concat(newTodo)
+    setTodos(updatedTodos)
   }
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>My Todo List</h1>
-      <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo}/>
+      <TodoForm addTodo={addTodo} />
+      <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />
     </div>
   )
 }
